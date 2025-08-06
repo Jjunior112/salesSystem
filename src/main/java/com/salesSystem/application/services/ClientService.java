@@ -53,6 +53,14 @@ public class ClientService {
 
     }
 
+    @Transactional
+    public Client reactiveClient(UUID id) {
+        Client client = repository.getReferenceById(id);
+
+        client.reactiveClient();
+
+        return client;
+    }
 
 }
 
