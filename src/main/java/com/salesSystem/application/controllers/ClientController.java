@@ -60,6 +60,16 @@ public class ClientController {
         return new ResponseEntity<>(new ClientListDto(client), HttpStatus.OK);
     }
 
+    @PutMapping("/reactive/{id}")
+
+    public ResponseEntity<ClientListDto> reactiveClient(@PathVariable UUID id) {
+
+        var client = clientService.reactiveClient(id);
+
+        return new ResponseEntity<>(new ClientListDto(client), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{id}")
 
     public ResponseEntity deleteClient(UUID id) {
