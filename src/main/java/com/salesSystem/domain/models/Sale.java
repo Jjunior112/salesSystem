@@ -1,6 +1,5 @@
 package com.salesSystem.domain.models;
 
-import com.salesSystem.domain.dtos.sale.SaleRegisterDto;
 import jakarta.persistence.*;
 import lombok.*;
 
