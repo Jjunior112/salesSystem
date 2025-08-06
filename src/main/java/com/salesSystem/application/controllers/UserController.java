@@ -1,5 +1,6 @@
 package com.salesSystem.application.controllers;
 
+import com.salesSystem.domain.dtos.client.ClientListDto;
 import com.salesSystem.domain.dtos.user.*;
 import com.salesSystem.domain.models.Seller;
 import com.salesSystem.domain.models.User;
@@ -76,6 +77,15 @@ public class UserController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 
+    }
+
+    @PutMapping("/reactive/{id}")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity reactiveUser(@PathVariable UUID id) {
+
+        userService.reactiveUser(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
