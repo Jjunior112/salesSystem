@@ -55,6 +55,13 @@ public class User implements UserDetails {
         }
     }
 
+    public void reactiveUser() {
+
+        if (!isActive) {
+            this.isActive = true;
+        }
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
