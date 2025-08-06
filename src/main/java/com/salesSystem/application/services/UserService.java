@@ -95,10 +95,20 @@ public class UserService implements UserDetailsService {
         return seller;
     }
 
+
+    @Transactional
     public void inactiveUser(UUID id) {
         User user = userRepository.getReferenceById(id);
 
         user.inactiveUser();
+
+    }
+
+    @Transactional
+    public void reactiveUser(UUID id) {
+        User user = userRepository.getReferenceById(id);
+
+        user.reactiveUser();
 
     }
 
