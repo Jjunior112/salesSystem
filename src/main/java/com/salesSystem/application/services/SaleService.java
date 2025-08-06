@@ -6,6 +6,7 @@ import com.salesSystem.domain.dtos.sale.ListSalesDto;
 import com.salesSystem.domain.dtos.sale.SaleRegisterDto;
 import com.salesSystem.domain.models.*;
 import com.salesSystem.infra.repositories.SalesRepository;
+import com.salesSystem.infra.validations.Validation;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,15 +26,20 @@ public class SaleService {
 
     private final ProductService productService;
 
-    public SaleService(SalesRepository repository, UserService userService, ClientService clientService, ProductService productService) {
+    private final List<Validation> validations;
+
+    public SaleService(SalesRepository repository, UserService userService, ClientService clientService, ProductService productService, List<Validation> validation) {
         this.repository = repository;
         this.clientService = clientService;
         this.userService = userService;
         this.productService = productService;
+        this.validations = validation;
     }
 
     @Transactional
     public Sale createSale(SaleRegisterDto newSale) {
+
+        validations.forEach(v -> v.validate(newSale));
 
         Client client = clientService.findClientById(newSale.buyerId());
 
@@ -42,23 +48,20 @@ public class SaleService {
         List<CartItem> cart = new ArrayList<>();
 
         for (CartRegisterDto item : newSale.cart()) {
+
             Product product = productService.findById(item.productId());
 
-            if (product != null && product.getBalance() >= item.quantity() && item.quantity() > 0) {
-                CartItem cartItem = new CartItem(product, item.quantity());
+            CartItem cartItem = new CartItem(product, item.quantity());
 
-                product.setBalance(product.getBalance() - item.quantity());
+            product.setBalance(product.getBalance() - item.quantity());
 
-                productService.updateProduct(product);
+            productService.updateProduct(product);
 
-                cart.add(cartItem);
-            }
+            cart.add(cartItem);
 
         }
 
-
         Sale sale = new Sale(client, seller, cart);
-
 
         repository.save(sale);
 
@@ -78,6 +81,12 @@ public class SaleService {
     @Transactional
     public void DeleteSale(Long id) {
         Sale sale = repository.getReferenceById(id);
+
+        var cart = sale.getCartItems();
+
+        for (CartItem item : cart) {
+            productService.updateProductBalance(item.getProductId(), new UpdateProductBalanceDto(item.getQuantity()));
+        }
 
         repository.delete(sale);
 
