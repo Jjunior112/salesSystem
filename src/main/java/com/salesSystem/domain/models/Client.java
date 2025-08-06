@@ -61,4 +61,10 @@ public class Client {
         }
     }
 
+    public void reactiveClient() {
+        if (!isActive) {
+            this.isActive = true;
+        }
+    }
+
 }
