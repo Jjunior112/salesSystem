@@ -29,6 +29,9 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/user/adminRegister", "/user/sellerRegister").hasRole(UserRole.ADMIN.name())
                                 .requestMatchers(HttpMethod.GET, "/user").hasRole(UserRole.ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE, "/user").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/sales").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/clients").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/products").hasRole(UserRole.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
 
