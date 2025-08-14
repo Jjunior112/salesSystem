@@ -2,6 +2,7 @@ package com.salesSystem.application.controllers;
 
 import com.salesSystem.domain.dtos.client.ClientListDto;
 import com.salesSystem.domain.dtos.user.*;
+import com.salesSystem.domain.enums.UserRole;
 import com.salesSystem.domain.models.Seller;
 import com.salesSystem.domain.models.User;
 import com.salesSystem.application.services.TokenService;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
+
 public class UserController {
 
 
@@ -69,14 +71,45 @@ public class UserController {
 
     }
 
-    @GetMapping()
+    @GetMapping
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Page<UserListDto>> getAllUsers(@PageableDefault(sort = "firstName", size = 10) @RequestParam(name = "role", required = false) Pageable pagination) {
+    public ResponseEntity<Page<UserListDto>> getAllUsers(
+            @PageableDefault(sort = "email", size = 10) Pageable pagination,
+            @RequestParam(name = "role", required = false) UserRole role) {
 
-        Page<UserListDto> response = userService.findAllUsers(pagination);
+        Page<UserListDto> response = userService.findAllUsers(pagination, role);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
+    @GetMapping("/sellers")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<Page<SellerListDto>> getAllSellers(
+            @PageableDefault(sort = "firstName", size = 10) Pageable pagination
+    ) {
+
+        Page<SellerListDto> response = userService.findAllSellers(pagination);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/sellers/{id}")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<SellerListDto> getSellerById(@PathVariable UUID id) {
+
+        var response = userService.findSellerById(id);
+
+        return new ResponseEntity<>(new SellerListDto(response), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<SellerListDto> editInfoUser(@PathVariable UUID id, EditInfoUserDto edit) {
+
+        var response = userService.editUserInfo(id, edit);
+
+        return new ResponseEntity<>(new SellerListDto(response), HttpStatus.OK);
     }
 
     @PutMapping("/reactive/{id}")

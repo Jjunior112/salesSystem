@@ -1,5 +1,6 @@
 package com.salesSystem.domain.models;
 
+import com.salesSystem.domain.dtos.user.EditInfoUserDto;
 import com.salesSystem.domain.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -45,6 +46,15 @@ public class Seller extends User {
         this.phone = phone;
         this.document = document;
         this.address = address;
+    }
+
+    public void editInfo(EditInfoUserDto edit) {
+        if (edit.phone() != null) {
+            this.phone = edit.phone();
+        }
+        if (edit.address() != null) {
+            this.address = edit.address();
+        }
     }
 
 

@@ -1,11 +1,7 @@
 package com.salesSystem.application.services;
 
-import com.salesSystem.domain.dtos.user.AdminRegisterDto;
-import com.salesSystem.domain.dtos.user.SellerListDto;
-import com.salesSystem.domain.dtos.user.SellerRegisterDto;
-import com.salesSystem.domain.dtos.user.UserListDto;
+import com.salesSystem.domain.dtos.user.*;
 import com.salesSystem.domain.enums.UserRole;
-import com.salesSystem.domain.models.Sale;
 import com.salesSystem.domain.models.Seller;
 import com.salesSystem.domain.models.User;
 import com.salesSystem.infra.repositories.SellerRepository;
@@ -83,18 +79,31 @@ public class UserService implements UserDetailsService {
         return userRepository.save(seller);
     }
 
-    public Page<UserListDto> findAllUsers(Pageable pagination) {
+    @Transactional
+    public Seller editUserInfo(UUID id, EditInfoUserDto editInfo) {
+        Seller seller = findSellerById(id);
 
-        return userRepository.findAllByIsActiveTrue(pagination).map(UserListDto::new);
-    }
-
-    public Seller findSellerById(UUID id) {
-
-        Seller seller = sellerRepository.getReferenceById(id);
+        seller.editInfo(editInfo);
 
         return seller;
     }
 
+    public Page<UserListDto> findAllUsers(Pageable pagination, UserRole role) {
+        if (role == null) {
+            return userRepository.findAll(pagination).map(UserListDto::new);
+        } else {
+            return userRepository.findByRole(role, pagination).map(UserListDto::new);
+        }
+    }
+
+    public Page<SellerListDto> findAllSellers(Pageable pagination) {
+
+        return sellerRepository.findAll(pagination).map(SellerListDto::new);
+    }
+
+    public Seller findSellerById(UUID id) {
+        return sellerRepository.getReferenceById(id);
+    }
 
     @Transactional
     public void inactiveUser(UUID id) {
@@ -115,10 +124,6 @@ public class UserService implements UserDetailsService {
     public boolean existUser(String email) {
         var user = userRepository.findByEmail(email);
 
-        if (user == null) {
-            return false;
-        }
-
-        return true;
+        return user != null;
     }
 }
