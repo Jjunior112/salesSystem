@@ -4,6 +4,7 @@ import com.salesSystem.domain.dtos.cart.CartListDto;
 import com.salesSystem.domain.dtos.cart.UpdateCartDto;
 import com.salesSystem.domain.dtos.client.ClientListDto;
 import com.salesSystem.domain.dtos.client.ClientRegisterDto;
+import com.salesSystem.domain.dtos.client.EditClientInfo;
 import com.salesSystem.domain.models.Client;
 import com.salesSystem.application.services.ClientService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -58,6 +59,14 @@ public class ClientController {
         var client = clientService.findClientById(id);
 
         return new ResponseEntity<>(new ClientListDto(client), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+
+    public ResponseEntity<ClientListDto> editClientInfo(@PathVariable UUID id, EditClientInfo edit) {
+        var response = clientService.editClientInfo(id, edit);
+
+        return new ResponseEntity<>(new ClientListDto(response), HttpStatus.OK);
     }
 
     @PutMapping("/reactive/{id}")

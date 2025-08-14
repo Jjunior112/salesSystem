@@ -2,6 +2,7 @@ package com.salesSystem.domain.models;
 
 import com.salesSystem.domain.dtos.client.ClientRegisterDto;
 
+import com.salesSystem.domain.dtos.client.EditClientInfo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -53,6 +54,15 @@ public class Client {
         this.document = client.document();
         this.address = client.address();
 
+    }
+
+    public void editClientInfo(EditClientInfo edit) {
+        if (edit.phone() != null) {
+            this.phone = edit.phone();
+        }
+        if (edit.address() != null) {
+            this.address = edit.address();
+        }
     }
 
     public void inactiveClient() {

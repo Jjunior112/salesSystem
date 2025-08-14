@@ -3,6 +3,7 @@ package com.salesSystem.application.services;
 import com.salesSystem.domain.dtos.cart.UpdateCartDto;
 import com.salesSystem.domain.dtos.client.ClientListDto;
 import com.salesSystem.domain.dtos.client.ClientRegisterDto;
+import com.salesSystem.domain.dtos.client.EditClientInfo;
 import com.salesSystem.domain.models.Client;
 import com.salesSystem.domain.models.Product;
 import com.salesSystem.infra.repositories.ClientRepository;
@@ -40,7 +41,15 @@ public class ClientService {
 
     public Client findClientById(UUID id) {
 
-        Client client = repository.getReferenceById(id);
+        return repository.getReferenceById(id);
+    }
+
+    @Transactional
+    public Client editClientInfo(UUID id, EditClientInfo edit) {
+
+        Client client = findClientById(id);
+
+        client.editClientInfo(edit);
 
         return client;
     }
