@@ -1,5 +1,6 @@
 package com.salesSystem.infra.repositories;
 
+import com.salesSystem.domain.enums.UserRole;
 import com.salesSystem.domain.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     UserDetails findByEmail(String login);
 
-    Page<User> findAllByIsActiveTrue(Pageable pagination);
+    Page<User> findByRole(UserRole role, Pageable pageable);
 
     @Query(
             """
