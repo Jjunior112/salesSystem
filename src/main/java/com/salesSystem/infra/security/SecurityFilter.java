@@ -44,12 +44,18 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String receiveToken(HttpServletRequest request) {
 
-        var auth = request.getHeader("Authorization");
+        if (request.getCookies() != null) {
+            for (var cookie : request.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
 
-        if (auth != null) {
+        var auth = request.getHeader("Authorization");
+        if (auth != null && auth.startsWith("Bearer ")) {
             return auth.replace("Bearer ", "");
         }
         return null;
-
     }
 }
