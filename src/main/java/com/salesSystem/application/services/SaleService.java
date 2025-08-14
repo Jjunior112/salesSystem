@@ -69,17 +69,20 @@ public class SaleService {
     }
 
     public Page<ListSalesDto> findAllSales(Pageable pagination) {
+
+
         return repository.findAll(pagination).map(ListSalesDto::new);
     }
 
     public Sale findSaleById(Long id) {
-        Sale sale = repository.getReferenceById(id);
 
-        return sale;
+        return repository.getReferenceById(id);
     }
 
+
     @Transactional
-    public void DeleteSale(Long id) {
+
+    public void DeleteFullSale(Long id) {
         Sale sale = repository.getReferenceById(id);
 
         var cart = sale.getCartItems();
@@ -91,6 +94,5 @@ public class SaleService {
         repository.delete(sale);
 
     }
-
 
 }

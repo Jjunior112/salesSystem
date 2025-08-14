@@ -52,7 +52,7 @@ public class SaleController {
     @DeleteMapping("/{id}")
 
     public ResponseEntity deleteSale(Long id) {
-        service.DeleteSale(id);
+        service.DeleteFullSale(id);
 
         return ResponseEntity.noContent().build();
     }
