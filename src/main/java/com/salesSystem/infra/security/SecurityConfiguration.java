@@ -21,21 +21,23 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, SecurityFilter securityFilter) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> {
+                })
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                         HttpMethod.POST, "/user/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/user/adminRegister", "/user/sellerRegister").hasRole(UserRole.ADMIN.name())
-                                .requestMatchers(HttpMethod.GET, "/user").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.GET, "/user", "/user/**", "user/sellers", "user/sellers/**").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT, "/user/**", "user/reactive/**").hasRole(UserRole.ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE, "/user").hasRole(UserRole.ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "/sales").hasRole(UserRole.ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "/clients").hasRole(UserRole.ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "/products").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "/products").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT, "/products").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole(UserRole.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/sales/**").hasRole(UserRole.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
-
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
