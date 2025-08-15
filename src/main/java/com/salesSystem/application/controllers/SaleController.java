@@ -8,9 +8,13 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/sales")
@@ -33,9 +37,11 @@ public class SaleController {
     }
 
     @GetMapping
+    public ResponseEntity<Page<ListSalesDto>> getAllSales(
+            @RequestParam(required = false) LocalDateTime date,
+            @PageableDefault(sort = "timestamp", size = 10) Pageable pagination) {
 
-    public ResponseEntity<Page<ListSalesDto>> getAllSales(@PageableDefault(sort = "timestamp", size = 10) Pageable pagination) {
-        var sales = service.findAllSales(pagination);
+        var sales = service.findAllSales(date, pagination);
 
         return ResponseEntity.ok(sales);
     }
