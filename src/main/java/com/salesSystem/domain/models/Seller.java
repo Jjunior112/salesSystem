@@ -53,7 +53,7 @@ public class Seller extends User {
             this.phone = edit.phone();
         }
         if (edit.address() != null) {
-            this.address = edit.address();
+            this.address.updateInformation(edit.address());
         }
     }
 

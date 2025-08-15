@@ -1,7 +1,8 @@
 package com.salesSystem.domain.dtos.address;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+
+
 public record AddressDto(
         @NotBlank
         String street,
@@ -10,7 +11,6 @@ public record AddressDto(
         String neighborhood,
 
         @NotBlank
-        @Pattern(regexp = "\\d{8}")
         String zipCode,
 
         @NotBlank
@@ -22,4 +22,5 @@ public record AddressDto(
         String complement,
 
         String number
-) {}
+) {
+}

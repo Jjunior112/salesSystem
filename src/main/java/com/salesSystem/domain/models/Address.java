@@ -1,6 +1,7 @@
 package com.salesSystem.domain.models;
 
 import com.salesSystem.domain.dtos.address.AddressDto;
+import com.salesSystem.domain.dtos.address.EditAddressDto;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class Address {
         this.state = data.state();
     }
 
-    public void updateInformation(AddressDto data) {
+    public void updateInformation(EditAddressDto data) {
         if (data.street() != null) {
             this.street = data.street();
         }
@@ -55,4 +56,5 @@ public class Address {
             this.state = data.state();
         }
     }
+
 }

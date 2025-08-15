@@ -61,7 +61,7 @@ public class Client {
             this.phone = edit.phone();
         }
         if (edit.address() != null) {
-            this.address = edit.address();
+            this.address.updateInformation(edit.address());
         }
     }
 

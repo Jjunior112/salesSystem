@@ -36,7 +36,7 @@ public class ClientService {
     }
 
     public Page<ClientListDto> findAllClients(Pageable pagination) {
-        return repository.findAllByIsActiveTrue(pagination).map(ClientListDto::new);
+        return repository.findAll(pagination).map(ClientListDto::new);
     }
 
     public Client findClientById(UUID id) {
@@ -50,6 +50,8 @@ public class ClientService {
         Client client = findClientById(id);
 
         client.editClientInfo(edit);
+
+        repository.save(client);
 
         return client;
     }

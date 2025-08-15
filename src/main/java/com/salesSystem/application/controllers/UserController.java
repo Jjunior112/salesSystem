@@ -103,9 +103,18 @@ public class UserController {
         return new ResponseEntity<>(new SellerListDto(response), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<UserListDto> getUserById(@PathVariable UUID id) {
+
+        var response = userService.findUserById(id);
+
+        return new ResponseEntity<>(new UserListDto(response), HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<SellerListDto> editInfoUser(@PathVariable UUID id, EditInfoUserDto edit) {
+    public ResponseEntity<SellerListDto> editInfoUser(@PathVariable UUID id, @RequestBody EditInfoUserDto edit) {
 
         var response = userService.editUserInfo(id, edit);
 

@@ -105,6 +105,10 @@ public class UserService implements UserDetailsService {
         return sellerRepository.getReferenceById(id);
     }
 
+    public User findUserById(UUID id) {
+        return userRepository.getReferenceById(id);
+    }
+
     @Transactional
     public void inactiveUser(UUID id) {
         User user = userRepository.getReferenceById(id);

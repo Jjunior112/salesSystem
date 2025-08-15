@@ -63,7 +63,7 @@ public class ClientController {
 
     @PutMapping("/{id}")
 
-    public ResponseEntity<ClientListDto> editClientInfo(@PathVariable UUID id, EditClientInfo edit) {
+    public ResponseEntity<ClientListDto> editClientInfo(@PathVariable UUID id, @RequestBody EditClientInfo edit) {
         var response = clientService.editClientInfo(id, edit);
 
         return new ResponseEntity<>(new ClientListDto(response), HttpStatus.OK);
@@ -81,7 +81,7 @@ public class ClientController {
 
     @DeleteMapping("/{id}")
 
-    public ResponseEntity deleteClient(UUID id) {
+    public ResponseEntity deleteClient(@PathVariable UUID id) {
 
         clientService.inactiveClient(id);
 

@@ -10,7 +10,8 @@ import java.util.UUID;
 
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
-    Page<Client> findAllByIsActiveTrue(Pageable pagination);
+    @Override
+    Page<Client> findAll(Pageable pagination);
 
     @Query(
             """
