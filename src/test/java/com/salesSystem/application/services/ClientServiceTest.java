@@ -6,6 +6,7 @@ import com.salesSystem.domain.models.Address;
 import com.salesSystem.domain.models.Client;
 import com.salesSystem.infra.repositories.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -46,6 +47,7 @@ class ClientServiceTest {
     }
 
     @Test
+    @DisplayName("Deveria registrar o cliente corretamente")
     void createClientCase1() {
         //arrange
 
@@ -63,10 +65,11 @@ class ClientServiceTest {
 
         verify(repository, times(1)).save(any());
 
-        assertEquals(clientRegisterDto.firstName(), result.getFirstName(),"O nome do cliente retornado deve ser igual ao enviado");
+        assertEquals(clientRegisterDto.firstName(), result.getFirstName(), "O nome do cliente retornado deve ser igual ao enviado");
     }
 
     @Test
+    @DisplayName("Deveria retornar cliente corretamente")
     void findClientByIdCase1() {
         //arrange
 
@@ -77,6 +80,8 @@ class ClientServiceTest {
         //act
 
         Client result = clientService.findClientById(id);
+
+        //arrange
 
         verify(repository, times(1)).getReferenceById(any());
 
