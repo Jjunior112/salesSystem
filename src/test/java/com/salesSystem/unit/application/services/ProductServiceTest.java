@@ -1,5 +1,6 @@
-package com.salesSystem.application.services;
+package com.salesSystem.unit.application.services;
 
+import com.salesSystem.application.services.ProductService;
 import com.salesSystem.domain.dtos.product.ProductRegisterDto;
 import com.salesSystem.domain.enums.ProductCategory;
 import com.salesSystem.domain.models.Product;

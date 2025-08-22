@@ -1,5 +1,6 @@
-package com.salesSystem.application.services;
+package com.salesSystem.unit.application.services;
 
+import com.salesSystem.application.services.ClientService;
 import com.salesSystem.domain.dtos.address.AddressDto;
 import com.salesSystem.domain.dtos.client.ClientRegisterDto;
 import com.salesSystem.domain.models.Address;
