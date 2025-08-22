@@ -1,5 +1,6 @@
 package com.salesSystem.domain.models;
 
+import com.salesSystem.domain.dtos.product.EditProductInfo;
 import com.salesSystem.domain.dtos.product.ProductRegisterDto;
 import com.salesSystem.domain.enums.ProductCategory;
 import jakarta.persistence.*;
@@ -54,5 +55,24 @@ public class Product {
 
         this.price = newProduct.price();
 
+    }
+
+    public void editInfo(EditProductInfo edit) {
+        if (edit.productName() != null) {
+            this.productName = edit.productName();
+        }
+        if (edit.productCategory() != null) {
+            this.productCategory = edit.productCategory();
+        }
+
+        if (edit.productDescription() != null) {
+            this.productDescription = edit.productDescription();
+        }
+        if (edit.price() != null) {
+            this.price = edit.price();
+        }
+        if (edit.balance() != null) {
+            this.balance = edit.balance();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.salesSystem.application.controllers;
 
+import com.salesSystem.domain.dtos.product.EditProductInfo;
 import com.salesSystem.domain.dtos.product.ProductListDto;
 import com.salesSystem.domain.dtos.product.ProductRegisterDto;
 import com.salesSystem.domain.dtos.product.UpdateProductBalanceDto;
@@ -54,13 +55,22 @@ public class ProductController {
         return new ResponseEntity<>(new ProductListDto(product), HttpStatus.OK);
     }
 
+    @PutMapping("/editInfo/{id}")
+    public ResponseEntity<ProductListDto> editProductInfo(@PathVariable Long id, @RequestBody EditProductInfo edit) {
+
+        Product response = productService.editProductInfo(id, edit);
+
+        return new ResponseEntity<>(new ProductListDto(response), HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<ProductListDto> putProduct(@PathVariable Long id, UpdateProductBalanceDto update) {
+    public ResponseEntity<ProductListDto> putProduct(@PathVariable Long id, @RequestBody UpdateProductBalanceDto update) {
 
         Product response = productService.updateProductBalance(id, update);
 
         return new ResponseEntity<>(new ProductListDto(response), HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteProduct(@PathVariable Long id) {

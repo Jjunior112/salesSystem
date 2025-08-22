@@ -1,5 +1,6 @@
 package com.salesSystem.application.services;
 
+import com.salesSystem.domain.dtos.product.EditProductInfo;
 import com.salesSystem.domain.dtos.product.ProductListDto;
 import com.salesSystem.domain.dtos.product.ProductRegisterDto;
 import com.salesSystem.domain.dtos.product.UpdateProductBalanceDto;
@@ -22,6 +23,7 @@ public class ProductService {
 
     @Transactional
     public Product createProduct(ProductRegisterDto newProduct) {
+
         Product product = new Product(newProduct);
 
         repository.save(product);
@@ -36,6 +38,15 @@ public class ProductService {
 
     public Product findById(Long id) {
         return repository.getReferenceById(id);
+    }
+
+    @Transactional
+    public Product editProductInfo(Long id, EditProductInfo edit) {
+        Product product = findById(id);
+
+        product.editInfo(edit);
+
+        return product;
     }
 
     @Transactional
