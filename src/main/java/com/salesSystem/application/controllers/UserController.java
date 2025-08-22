@@ -39,16 +39,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid LoginDto login) {
+    public ResponseEntity<JwtDto> login(@RequestBody @Valid LoginDto login) {
 
         var authToken = new UsernamePasswordAuthenticationToken(login.email(), login.password());
 
         var authentication = authenticationManager.authenticate(authToken);
 
-        var tokenJwt = tokenService.generateToken((User) authentication.getPrincipal());
+        var user = (User) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtDto(tokenJwt));
+        var tokenJwt = tokenService.generateToken(user);
 
+        return ResponseEntity.ok(
+                new JwtDto(tokenJwt, user.getRole().name())
+        );
     }
 
     @PostMapping("/adminRegister")
