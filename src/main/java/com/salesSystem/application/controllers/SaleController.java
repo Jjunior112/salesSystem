@@ -8,12 +8,10 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -57,7 +55,7 @@ public class SaleController {
 
     @DeleteMapping("/{id}")
 
-    public ResponseEntity deleteSale(Long id) {
+    public ResponseEntity deleteSale(@PathVariable Long id) {
         service.DeleteFullSale(id);
 
         return ResponseEntity.noContent().build();

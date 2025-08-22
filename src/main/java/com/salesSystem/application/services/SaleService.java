@@ -86,7 +86,6 @@ public class SaleService {
 
 
     @Transactional
-
     public void DeleteFullSale(Long id) {
         Sale sale = repository.getReferenceById(id);
 
